@@ -93,7 +93,7 @@ const size = bounds.max.subtract(bounds.min);
 const maxSize = Math.max(size.x, size.y, size.z);
 
     // ===== MODO MAQUETA: reducir modelo a 80 cm =====
-const tamanoMaqueta = 0.80;
+const tamanoMaqueta = 6;
 const escalaMaqueta = tamanoMaqueta / maxSize;
 
 const maquetaRoot = new BABYLON.TransformNode("maquetaRoot", scene);
