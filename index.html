@@ -105,6 +105,12 @@ const bounds = BABYLON.Mesh.MinMax(meshes);
 const center = BABYLON.Vector3.Center(bounds.min, bounds.max);
 const size = bounds.max.subtract(bounds.min);
 const maxSize = Math.max(size.x, size.y, size.z);
+console.log("BOUNDS MIN:", bounds.min);
+console.log("BOUNDS MAX:", bounds.max);
+console.log("CENTER:", center);
+console.log("SIZE:", size);
+console.log("MAX SIZE:", maxSize);
+  
 
     // ===== MODO MAQUETA: reducir modelo a 80 cm =====
 const tamanoMaqueta = 0.80;
