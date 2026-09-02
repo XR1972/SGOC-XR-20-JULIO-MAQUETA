@@ -86,18 +86,36 @@ camera.panningSensibility = 1000;
 
 
     // Encuadrar automaticamente el modelo cargado
-const meshes = result.meshes.filter(m => {
-    if (!m.getTotalVertices || m.getTotalVertices() <= 0) return false;
+const candidatos = result.meshes.filter(m =>
+    m.getTotalVertices &&
+    m.getTotalVertices() > 0
+);
 
-    const bi = m.getBoundingInfo();
-    const size = bi.boundingBox.maximumWorld.subtract(
-        bi.boundingBox.minimumWorld
-    );
+// Centro aproximado del grupo principal
+const centros = candidatos.map(m =>
+    m.getBoundingInfo().boundingBox.centerWorld
+);
+
+const xs = centros.map(c => c.x).sort((a,b) => a-b);
+const ys = centros.map(c => c.y).sort((a,b) => a-b);
+const zs = centros.map(c => c.z).sort((a,b) => a-b);
+
+const medio = a => a[Math.floor(a.length / 2)];
+
+const centroPrincipal = new BABYLON.Vector3(
+    medio(xs),
+    medio(ys),
+    medio(zs)
+);
+
+// Solo geometría cercana al edificio real
+const meshes = candidatos.filter(m => {
+    const c = m.getBoundingInfo().boundingBox.centerWorld;
 
     return (
-        size.x < 100 &&
-        size.y < 100 &&
-        size.z < 100
+        Math.abs(c.x - centroPrincipal.x) < 60 &&
+        Math.abs(c.y - centroPrincipal.y) < 60 &&
+        Math.abs(c.z - centroPrincipal.z) < 60
     );
 });
     
