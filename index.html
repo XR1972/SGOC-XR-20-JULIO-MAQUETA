@@ -86,14 +86,28 @@ camera.panningSensibility = 1000;
 
 
     // Encuadrar automaticamente el modelo cargado
-const meshes = result.meshes.filter(m => m.getTotalVertices && m.getTotalVertices() > 0);
+const meshes = result.meshes.filter(m => {
+    if (!m.getTotalVertices || m.getTotalVertices() <= 0) return false;
+
+    const bi = m.getBoundingInfo();
+    const size = bi.boundingBox.maximumWorld.subtract(
+        bi.boundingBox.minimumWorld
+    );
+
+    return (
+        size.x < 100 &&
+        size.y < 100 &&
+        size.z < 100
+    );
+});
+    
 const bounds = BABYLON.Mesh.MinMax(meshes);
 const center = BABYLON.Vector3.Center(bounds.min, bounds.max);
 const size = bounds.max.subtract(bounds.min);
 const maxSize = Math.max(size.x, size.y, size.z);
 
     // ===== MODO MAQUETA: reducir modelo a 80 cm =====
-const tamanoMaqueta = 6;
+const tamanoMaqueta = 0.80;
 const escalaMaqueta = tamanoMaqueta / maxSize;
 
 const maquetaRoot = new BABYLON.TransformNode("maquetaRoot", scene);
