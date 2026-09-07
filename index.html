@@ -244,18 +244,40 @@ xr.input.onControllerAddedObservable.add((xrController) => {
     }
 
     // Inclinación limitada
-    if (Math.abs(giroJoystickY) > 0.15) {
+    // Sin grip: inclinación limitada
+if (!gripPressed && Math.abs(giroJoystickY) > 0.15) {
 
-        giroRoot.rotation.x += giroJoystickY * 0.005;
+    giroRoot.rotation.x += giroJoystickY * 0.005;
 
-        const limiteInclinacion = BABYLON.Tools.ToRadians(10);
+    const limiteInclinacion = BABYLON.Tools.ToRadians(10);
 
-        giroRoot.rotation.x = BABYLON.Scalar.Clamp(
-            giroRoot.rotation.x,
-            -limiteInclinacion,
-            limiteInclinacion
-        );
-    }
+    giroRoot.rotation.x = BABYLON.Scalar.Clamp(
+        giroRoot.rotation.x,
+        -limiteInclinacion,
+        limiteInclinacion
+    );
+}
+
+// Con grip: acercar / alejar
+if (gripPressed && Math.abs(giroJoystickY) > 0.15) {
+
+    const velocidadZoom = 0.01;
+
+    giroRoot.scaling.x += -giroJoystickY * velocidadZoom;
+    giroRoot.scaling.y += -giroJoystickY * velocidadZoom;
+    giroRoot.scaling.z += -giroJoystickY * velocidadZoom;
+
+    const escalaMin = 0.60;
+    const escalaMax = 2.50;
+
+    const escalaNueva = BABYLON.Scalar.Clamp(
+        giroRoot.scaling.x,
+        escalaMin,
+        escalaMax
+    );
+
+    giroRoot.scaling.setAll(escalaNueva);
+}
 
 });
         console.log("SGOC XR ACTIVO");
