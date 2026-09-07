@@ -249,7 +249,7 @@ if (!gripPressed && Math.abs(giroJoystickY) > 0.15) {
 
     giroRoot.rotation.x += giroJoystickY * 0.005;
 
-    const limiteInclinacion = BABYLON.Tools.ToRadians(10);
+    const limiteInclinacion = BABYLON.Tools.ToRadians(25);
 
     giroRoot.rotation.x = BABYLON.Scalar.Clamp(
         giroRoot.rotation.x,
