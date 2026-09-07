@@ -210,13 +210,21 @@ const xr = await scene.createDefaultXRExperienceAsync({
   // ===== GIRO XR DE LA MAQUETA SOBRE SU EJE =====
 let giroJoystickX = 0;
 let giroJoystickY = 0;
+let gripPressed = false;
 
 xr.input.onControllerAddedObservable.add((xrController) => {
 
     if (xrController.inputSource.handedness !== "right") return;
 
     xrController.onMotionControllerInitObservable.add((motionController) => {
+    const grip = motionController.getComponentOfType("squeeze");
 
+    if (grip) {
+        grip.onButtonStateChangedObservable.add((component) => {
+            gripPressed = component.pressed;
+    });
+}
+        
         const joystick = motionController.getComponent("xr-standard-thumbstick");
 
         if (!joystick) return;
