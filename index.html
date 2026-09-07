@@ -187,9 +187,12 @@ const mesa = BABYLON.MeshBuilder.CreateBox(
     scene
 );
     
+// La mesa gira junto con toda la maqueta
+mesa.parent = giroRoot;
+
 mesa.position = new BABYLON.Vector3(
     0,
-    alturaMesa - 0.025,
+    -0.025,
     0
 );
 
