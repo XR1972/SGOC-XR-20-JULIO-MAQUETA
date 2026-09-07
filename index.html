@@ -180,13 +180,13 @@ maquetaRoot.position = new BABYLON.Vector3(
 const mesa = BABYLON.MeshBuilder.CreateBox(
     "mesaMaqueta",
     {
-        width: 1.20,
-        depth: 1.20,
+        width: tamanoMaqueta,
+        depth: tamanoMaqueta,
         height: 0.05
     },
     scene
 );
-
+    
 mesa.position = new BABYLON.Vector3(
     0,
     alturaMesa - 0.025,
